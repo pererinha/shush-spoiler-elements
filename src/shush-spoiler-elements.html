@@ -1,0 +1,58 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<polymer-element name="shush-spoiler-elements" attributes="warning spoiler">
+    <template>
+        <span on-click="{{changeStatus}}" class="shush-spoiler-elements-spoiler {{spoilerCssClass}}"> {{spoiler}} </span>
+        <span on-click="{{changeStatus}}" class="shush-spoiler-elements-warning {{warningCssClass}}">{{warning}}</span>
+        <style>
+            .shush-spoiler-elements-spoiler{
+                font-weight: bold;
+            }
+            .shush-spoiler-elements-warning{
+                border: 1px solid #f6de70;
+                background: #f6e7b8;
+                font-style: italic;
+                text-decoration: underline;
+            }
+            .shush-spoiler-elements-visible{
+                display: default;
+                cursor: pointer;
+            }
+            .shush-spoiler-elements-hidden{
+                display: none;
+            }
+
+        </style>
+    </template>
+    <script>
+        (function() {
+            // private stuff
+            var defaults = {    warning : 'spoiler detected', 
+                                spoiler : 'no spoilers for you',
+                                visible : 'shush-spoiler-elements-visible', 
+                                hidden : 'shush-spoiler-elements-hidden' };
+
+            Polymer('shush-spoiler-elements', {
+                created: function() { /* go home created */ },
+                ready: function() {
+                    // set the properties
+                    this.spoiler = this.spoiler || defaults.spoiler;
+                    this.warning = this.warning || defaults.warning;
+                    this.spoilerVisible = false;
+                    this.warningVisible = !this.spoilerVisible;
+                },
+                changeStatus: function(){
+                  this.spoilerVisible = !this.spoilerVisible; 
+                  this.warningVisible = !this.spoilerVisible; 
+                },
+                // watchers
+                spoilerVisibleChanged: function(oldValue, newValue) {
+                    this.spoilerCssClass = ( newValue ) ? defaults.visible : defaults.hidden;
+                },
+                warningVisibleChanged: function(oldValue, newValue) {
+                    this.warningCssClass = ( newValue ) ? defaults.visible : defaults.hidden;
+                }
+            });
+        })();
+    </script>
+</polymer-element>
